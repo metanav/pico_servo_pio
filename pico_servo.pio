@@ -1,6 +1,6 @@
 ; Side-set pin 0 is used for PWM output
 
-.program pwm
+.program pico_servo_pio
 .side_set 1 opt
 
     pull noblock    side 0 ; Pull from FIFO to OSR if available, else copy X to OSR.
@@ -16,10 +16,10 @@ skip:
 
 % c-sdk {
 
-static inline void pwm_program_init(PIO pio, uint sm, uint offset, uint clk_div, uint pin) {
+static inline void pico_servo_pio_program_init(PIO pio, uint sm, uint offset, uint clk_div, uint pin) {
    pio_gpio_init(pio, pin);
    pio_sm_set_consecutive_pindirs(pio, sm, pin, 1, true);
-   pio_sm_config c = pwm_program_get_default_config(offset);
+   pio_sm_config c = pico_servo_pio_program_get_default_config(offset);
    sm_config_set_sideset_pins(&c, pin);
    sm_config_set_clkdiv(&c, clk_div);
    pio_sm_init(pio, sm, offset, &c);

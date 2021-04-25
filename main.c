@@ -1,7 +1,7 @@
 #include "hardware/clocks.h"
 #include "hardware/pio.h"
 #include "pico/stdlib.h"
-#include "pico_pio_pwm.pio.h"
+#include "pico_servo.pio.h"
 
 #define MIN_DC 650
 #define MAX_DC 2250
@@ -24,12 +24,12 @@ void pio_pwm_set_level(PIO pio, uint sm, uint32_t level) {
 int main() {
     PIO pio = pio0;
     int sm = 0;
-    uint offset = pio_add_program(pio, &pwm_program);
+    uint offset = pio_add_program(pio, &pico_servo_pio_program);
 
     float freq = 50.0f; // servo except 50Hz
     uint clk_div = 64;  // make the clock slower
 
-    pwm_program_init(pio, sm, offset, clk_div, SERVO_PIN);
+    pico_servo_pio_program_init(pio, sm, offset, clk_div, SERVO_PIN);
 
     uint cycles = clock_get_hz(clk_sys) / (freq * clk_div);
     uint32_t period = (cycles -3) / 3;  
@@ -48,11 +48,11 @@ int main() {
     }
 
     if (clockwise) {
-        ms -= 50;
+        ms -= 100;
     } else {
-        ms += 50;
+        ms += 100;
     }
 
-    sleep_ms(1000);
+    sleep_ms(500);
   }
 }

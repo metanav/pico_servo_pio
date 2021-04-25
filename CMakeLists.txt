@@ -13,7 +13,7 @@ project(pico_pio_pwm C CXX ASM)
 pico_sdk_init()
 add_executable(pico_pio_pwm)
 
-pico_generate_pio_header(pico_pio_pwm ${CMAKE_CURRENT_LIST_DIR}/pico_pio_pwm.pio)
+pico_generate_pio_header(pico_pio_pwm ${CMAKE_CURRENT_LIST_DIR}/pico_servo.pio)
 
 target_sources(pico_pio_pwm PRIVATE main.c)
 
